@@ -152,11 +152,13 @@
                 }
                 const result = await response.json();
                 console.log(result);
+
     
+window.location = '/';
             } catch (error) {
                 console.error('Error submitting selected clients:', error);
             }
-            window.location = '/';
+            
         }
 
         // Event listener for the submit button
