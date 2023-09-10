@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Client Page</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    h1 {
+        color: #333;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    li {
+        margin-bottom: 10px;
+    }
+
+    button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .panel{
+        width: 500px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+
+    .panel a:hover{
+        padding: 10px;
+        background-color: black;
+        color: white;
+        transition: 250ms;
+    }
+    .panel{
+        background-color: #fff;
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 3rem;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    </style>
+<body>
+
+    <h1>msg form</h1>
+    <div class="panel">
+        <a href="/">Add Client</a><br/>
+        <a href="/sendmsg">Send Single Client mail</a><br/>
+        <a href="/client">Send Mails to multiple Client</a><br/>
+    </div>
+    <div class="form">
+        <label for="text_subject">Subject:</label>
+        <input type="text" id="text_subject" name="text_subject" required>
+        <br>
+        <label for="text_msg">Message:</label>
+        <textarea id="text_msg" name="text_msg" rows="4" required></textarea>
+        <br>
+    </div>
+    <h1>List of Clients</h1>
+    <ul id="clientList">
+        <!-- Client data will be added here dynamically -->
+    </ul>
+
+    <button id="submitButton">Add Selected Clients</button>
+
+    <script>
+        // Function to fetch client data from the server
+        async function fetchClientData() {
+            try {
+                const response = await fetch('/getallclient');
+                if (!response.ok) {
+                    throw new Error('Unable to fetch data');
+                }
+                const data = await response.json();
+                displayClientList(data);
+            } catch (error) {
+                console.error('Error fetching client data:', error);
+            }
+        }
+
+        // Function to display client data as a list
+        function displayClientList(clients) {
+            const clientList = document.getElementById('clientList');
+
+            clients.forEach(client => {
+                const listItem = document.createElement('li');
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.value = client.email; // Use email or another unique identifier
+                listItem.appendChild(checkbox);
+                listItem.appendChild(document.createTextNode(client.username));
+            
+                listItem.appendChild(document.createTextNode(client.email))
+                clientList.appendChild(listItem);
+            });
+        }
+
+        // Function to handle form submission
+        async function handleSubmit() {
+            console.log('Handling form submission');
+            const selectedClients = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'));
+            const selectedEmails = selectedClients.map(checkbox => checkbox.value);
+
+            const text_msg = document.getElementById('text_msg').value;
+            const text_subject = document.getElementById('text_subject').value;
+
+            console.log({"selectedemail":selectedEmails});
+            try {
+                const payload = JSON.stringify({ selectedEmails, text_msg , text_subject});
+                console.log('JSON Payload:', payload);
+
+                const response = await fetch('/submitselectedclients', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body : payload, 
+
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error adding selected clients');
+                }
+                const result = await response.json();
+                console.log(result);
+    
+            } catch (error) {
+                console.error('Error submitting selected clients:', error);
+            }
+        }
+
+        // Event listener for the submit button
+        const submitButton = document.getElementById('submitButton');
+        submitButton.addEventListener('click', handleSubmit);
+
+        // Fetch client data when the page loads
+        fetchClientData();
+    </script>
+</body>
+</html>

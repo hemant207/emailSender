@@ -1,0 +1,108 @@
+<!-- contact.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Message Page</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+
+    h1 {
+        color: #333;
+    }
+
+    p {
+        color: #666;
+    }
+
+    a {
+        text-decoration: none;
+        color: #007bff;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    div {
+        background-color: #fff;
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 3rem;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    form {
+        text-align: left;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea{
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    input[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+    .panel{
+        display: flex;
+        justify-content: space-between;
+    }
+    .panel a:hover{
+        padding: 10px;
+        background-color: black;
+        color: white;
+        transition: 250ms;
+    }
+</style>
+<body>
+    <h1>Send Email Notification</h1>
+    <div class="panel">
+        <a href="/">Add Client</a><br/>
+        <a href="/sendmsg">Send Single Client mail</a><br/>
+        <a href="/client">Send Mails to multiple Client</a><br/>
+    </div>
+    <div>
+    <form action="/sendmail" method="post">
+        <label for="text_subject">Subject:</label>
+        <input type="text" id="text_subject" name="text_subject" required>
+        <br>
+        <label for="text_msg">Message:</label>
+        <textarea id="text_msg" name="text_msg" rows="4" required></textarea>
+        <br>
+        <label for="client_address">Client Address:</label>
+        <input type="text" id="client_address" name="client_address" required>
+        <br>
+        <input type="submit" value="Send Email">
+    </form>
+</div>
+</body>
+</html>
