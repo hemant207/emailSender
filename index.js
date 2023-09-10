@@ -29,7 +29,7 @@ async function main(client_address,text_msg,text_subject) {
     subject: text_subject, // Subject line
     text: text_msg, // plain text body
     html: `<b>${text_msg}</b>`, // html body
-  });
+  }).catch(console.error);
 
   console.log("Message sent: %s", info.messageId);
 
