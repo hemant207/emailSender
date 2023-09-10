@@ -9,12 +9,15 @@ const path = require('path');
 const async = require('async');
 
 const transporter = nodemailer.createTransport({
-  service: "outlook",
-  auth: {
-    // TODO: replace `user` and `pass` values from <https://forwardemail.net>
-    user: process.env.user_email,
-    pass: process.env.password
-  }
+    host: 'smtp.office365.com',
+    port: 587,
+    secure: false,  
+    service: "outlook",
+    auth: {
+        // TODO: replace `user` and `pass` values from <https://forwardemail.net>
+        user: process.env.user_email,
+        pass: process.env.password
+    }
 });
 
 // async..await is not allowed in global scope, must use a wrapper
@@ -100,6 +103,7 @@ app.post('/submit', (req, res) => {
         existingData = JSON.parse(fs.readFileSync('userdata.json'));
     } catch (error) {
         // Handle errors (e.g., file not found)
+        console.log(error);
     }
 
     // Append the new user data to the existing data
@@ -115,14 +119,19 @@ app.post('/submit', (req, res) => {
 
 const emailQueue = async.queue((taskData, callback) => {
     const { client_address , text_msg, text_subject } = taskData;
-    main(client_address, text_msg, text_subject,(error, result) => {
-        if (error) {
-            console.error('Error in email task:', error);
-        } else {
-            console.log('Email status:', result.status, 'for', result.email);
-        }
-        callback(); // Call the callback without error to signal completion
-    });
+    try {
+        main(client_address, text_msg, text_subject,(error, result) => {
+            if (error) {
+                console.error('Error in email task:', error);
+            } else {
+                console.log('Email status:', result.status, 'for', result.email);
+            }
+            callback(); // Call the callback without error to signal completion
+        });
+    } catch (error) {
+        console.log(error);
+    }
+    
 }, 1);
 
 app.post('/submitselectedclients',async (req,res)=>{

@@ -68,10 +68,20 @@
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
+
+    #msg_div{
+        width: 500px;
+        background-color: #333;
+        color: white;
+        border-radius: 10px;
+        padding: 10px;
+    }
     </style>
 <body>
 
     <h1>msg form</h1>
+    <div id="msg_div">
+    </div>
     <div class="panel">
         <a href="/">Add Client</a><br/>
         <a href="/sendmsg">Send Single Client mail</a><br/>
@@ -152,11 +162,18 @@
                 }
                 const result = await response.json();
                 console.log(result);
+                
+                const showMsg = document.getElementById("msg_div"); /// Select the element with id "msg_div"
+                const h2 = document.createElement('h2');// Create an h2 element
+                // Set the text content of the h2 element to your message
+                h2.textContent = result.message; // Assuming result.message contains the message text
+                showMsg.appendChild(h2)// Append the h2 element to the "msg_div" element
+
     
             } catch (error) {
                 console.error('Error submitting selected clients:', error);
             }
-            window.location = '/';
+        
         }
 
         // Event listener for the submit button
