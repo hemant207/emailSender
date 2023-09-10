@@ -9,9 +9,6 @@ const path = require('path');
 const async = require('async');
 
 const transporter = nodemailer.createTransport({
-    host: 'smtp.office365.com',
-    port: 587,
-    secure: false,  
     service: "outlook",
     auth: {
         // TODO: replace `user` and `pass` values from <https://forwardemail.net>
