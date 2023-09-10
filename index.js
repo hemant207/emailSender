@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -11,8 +12,8 @@ const transporter = nodemailer.createTransport({
   service: "outlook",
   auth: {
     // TODO: replace `user` and `pass` values from <https://forwardemail.net>
-    user: 'hmangukiya@outlook.com',
-    pass: 'HEmant2001'
+    user: process.env.user_email,
+    pass: process.env.password
   }
 });
 
@@ -20,7 +21,7 @@ const transporter = nodemailer.createTransport({
 async function main(client_address,text_msg,text_subject) {
   // send mail with defined transport object
   const info = await transporter.sendMail({
-    from: 'hmangukiya@outlook.com', // sender address
+    from: process.env.user_email , // sender address
     to: client_address, // list of receivers
     subject: text_subject, // Subject line
     text: text_msg, // plain text body
