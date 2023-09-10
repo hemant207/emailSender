@@ -11,8 +11,8 @@ const transporter = nodemailer.createTransport({
   service: "outlook",
   auth: {
     // TODO: replace `user` and `pass` values from <https://forwardemail.net>
-    user: 'hmangukiya@outlook.com',
-    pass: 'HEmant2001'
+    user: process.env.user_email,
+    pass: process.env.password'
   }
 });
 
