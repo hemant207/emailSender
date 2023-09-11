@@ -8,10 +8,7 @@ const { error } = require('console');
 const path = require('path');
 const async = require('async');
 
-const transporter = nodemailer.createTransport({
-    host: 'smtp.office365.com',
-    port: 587,
-    secure: false,  
+const transporter = nodemailer.createTransport({  
     service: "outlook",
     auth: {
         // TODO: replace `user` and `pass` values from <https://forwardemail.net>
@@ -123,21 +120,16 @@ app.post('/submit', (req, res) => {
     res.send({'User Data:': userData})
 })
 
-const emailQueue = async.queue((taskData, callback) => {
+const emailQueue = async.queue(async (taskData, callback) => {
     const { client_address , text_msg, text_subject } = taskData;
     try {
-        main(client_address, text_msg, text_subject,(error, result) => {
-            if (error) {
-                console.error('Error in email task:', error);
-            } else {
-                console.log('Email status:', result.status, 'for', result.email);
-            }
-            callback(); // Call the callback without error to signal completion
-        });
+        const res =  await main(client_address, text_msg, text_subject).catch(console.error('Error in email task:'))
+        console.log('Email status:', res, 'for', client_address); 
     } catch (error) {
         console.log(error);
     }
-    
+    callback(); // Call the callback without error to signal completion
+        
 }, 1);
 
 app.post('/submitselectedclients',async (req,res)=>{
@@ -146,10 +138,10 @@ app.post('/submitselectedclients',async (req,res)=>{
     const text_msg = req.body.text_msg;
     const text_subject = req.body.text_subject;
 
-    console.log(data_email , text_msg , text_subject );
+    //console.log(data_email , text_msg , text_subject );
 
     try {
-        data_email.forEach((client_address) => {
+        data_email.map((client_address) => {
             emailQueue.push({client_address, text_msg, text_subject});
         });
         res.send({ "message": "Emails sent successfully", "clients": data_email });
