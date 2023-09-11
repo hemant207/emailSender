@@ -1,4 +1,4 @@
-# emailSender
+# EmailSender
 
 Project Overview
 This project highlights the development of an email automation tool with a user-friendly web interface. It skillfully combines Node.js for the backend, Nodemailer for email automation, and robust security measures to ensure safe email communication. The web interface, designed using HTML, CSS, and JavaScript, prioritizes an intuitive user experience.
