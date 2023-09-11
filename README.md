@@ -38,9 +38,18 @@ npm start
 Access the Web Interface:
 
 Open a web browser and go to http://localhost:3000 to access the user-friendly web interface.
+
+
+
 Usage
 Email Automation: Efficiently automate various email-related tasks.
 Secure Communication: SSL/TLS encryption ensures email privacy and security.
 Dashboard: Users and administrators can access separate dashboards.
 Admin Features: Admins can manage courses or email templates.
 User Features: Users can purchase courses and view available listings.
+
+![clinentapp](https://github.com/hemant207/emailSender/assets/60990807/1e5b0ebb-1f89-42ac-9f70-5a1462c95d11)
+
+![clinentapp2 jpg](https://github.com/hemant207/emailSender/assets/60990807/1ae15827-739c-4550-8fce-4505c255058d)
+
+
