@@ -9,7 +9,7 @@ const path = require('path');
 const async = require('async');
 
 const transporter = nodemailer.createTransport({  
-    service: "outlook",
+    service: "hotmail",
     auth: {
         // TODO: replace `user` and `pass` values from <https://forwardemail.net>
         user: process.env.user_email,
